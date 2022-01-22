@@ -1,16 +1,19 @@
 // Gets the sketchpad container.
 const sketchContainer = document.getElementById("sketch-container");
 
-// Length of a side
-let sizeInput = 5;
+// Default length of a side.
+let sizeInput = 64;
 
-// Sets the size of the container so the border doesn't overflow.
-// Also set as if each pixel is 20x20.
-// sketchContainer.style.width = sizeInput*100 + "px";
+// Delfaul pencil color.
+let colorInput = "black";
+
+// Sets the size of the container sat 1000 by 1000 pixels.
 sketchContainer.style.width = "1000px";
 sketchContainer.style.height = "1000px";
 
 createSketchCanvas();
+
+changePencilColor();
 
 
 // Creates the sketch area.
@@ -25,11 +28,8 @@ function createSketchCanvas() {
     const sketchCanvas = document.createElement("div");
     sketchCanvas.id = "sketch-canvas";
 
-    console.log(`${4*sizeInput}`);
-
     // Sets the sketch area to a grid and makes the number of rows 
     // and columns according to the users input.
-    // Rows/columns are currently 100x100 pixels each.
     sketchCanvas.style = `display: grid;
                         grid-template-columns: repeat(${sizeInput}, ${1000/sizeInput}px);
                         grid-template-rows: repeat(${sizeInput}, ${1000/sizeInput}px);
@@ -44,11 +44,15 @@ function createSketchCanvas() {
         sketchCanvas.appendChild(singleSquare);
     }
 
-    // Event listener. When mouse leaves a square, square turns black.
+
+    // Event listener. When mouse leaves a square, square turns to the selected color.
     const allSquares = document.querySelectorAll(".single-block");
     allSquares.forEach(square => square.addEventListener("mouseenter", function() {
-        square.style = "background-color: black";
+        square.style = `background-color:${colorInput}`;
     }));
+
+
+    // changePencilColor();
 }
 
 
@@ -61,16 +65,29 @@ function clearBoard() {
 
 // Changes the drawing size of the pencil.
 function resizePencil() {
-    let sideLength = 0;
+    let sideLength;
     sideLength = prompt("Input the length per side: ");
 
+
     
-    if(sideLength == 0 || sideLength > 100) {
+    if(sideLength > 100) {
         alert("Number too large. Pick a number under 100.");
+    }
+    else if (sideLength == null || sideLength == 0) {
+        console.log("null length");
+        return;
     }
     else {
         sizeInput = sideLength;
         clearBoard();
         createSketchCanvas();
+        changePencilColor();
     }
+}
+
+// Changes pencil color.
+function changePencilColor() {
+    let colorElement = document.getElementById("pencil-color");
+
+    colorInput = colorElement.value;
 }

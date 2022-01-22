@@ -14,7 +14,11 @@
     <div id="sketch-container">
     </div>
 
-    <button onclick="clearBoard()">Clear Board</button>
-    <button onclick="resizePencil()">Resize Pencil</button>
+    <div id="button-container">
+        <button onclick="clearBoard()">Clear Board</button>
+        <button onclick="resizePencil()">Resize Pencil</button>
+        <input type="color" id="pencil-color" onchange="changePencilColor()">
+    </div>
+    
 </body>
 </html>
